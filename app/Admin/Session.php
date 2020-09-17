@@ -4,13 +4,13 @@ namespace App\Admin;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Event extends Model
+class Session extends Model
 {
-    protected $table = 'events';
+    protected $table = 'sessions';
     protected $primaryKey = 'id';
     public $timestamps = false;
 
-    public function sessions() {
-        return $this->hasMany(Session::class);
+    public function event(){
+        return $this->belongsTo(Event::class, 'id');
     }
 }

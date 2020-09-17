@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Admin\Event;
+use App\Admin\Session;
 
 class EventsController extends Controller
 {
@@ -17,7 +18,7 @@ class EventsController extends Controller
     public function index()
     {
         $event = new Event();
-        $events = $event->paginate(10);
+        $events = $event->paginate(5);
 
         return view('admin.events.index', ['events' => $events]);
     }
@@ -52,6 +53,24 @@ class EventsController extends Controller
 
         $event->save();
 
+        if($request->has('session_title') && $request->session_title[0] != ""){
+            $session_data = [];
+
+            for($i = 0; $i != count($request->session_title); $i++){
+                $session_data[] = [
+                    'event_id' => $event->id,
+                    'time' => $request->session_time[$i],
+                    'title' => $request->session_title[$i],
+                    'room' => $request->session_room[$i],
+                    'speaker' => $request->session_speaker[$i]
+                ];
+            }
+
+            $session = new Session();
+            $session->insert($session_data);
+        }
+
+
         return redirect('admin/events');
     }
 
@@ -63,18 +82,20 @@ class EventsController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
+        $event = new Event();
+        $event = $event->find($id);
+
+        $sessions = $event->sessions;
+
+        return view('admin.events.edit', [
+            'event' => $event,
+            'sessions' => $sessions
+        ]);
     }
 
     /**
@@ -86,7 +107,57 @@ class EventsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $event = Event::find($id);
+
+        $event->title = $request->title;
+        $event->description = $request->description;
+        $event->date = $request->date;
+        $event->time = $request->time;
+        $event->duration_days = $request->duration;
+        $event->location = $request->location;
+        $event->standard_price = $request->price;
+        $event->capacity = $request->capacity;
+
+        $event->save();
+
+        $i = 0;
+        if($request->has('session_id')){
+            $session_ids = [];
+            $session_data = [];
+            foreach ($request->session_id as $id){
+                $session_ids[] = $id;
+            }
+
+            for(; $i != count($session_ids); $i++){
+                $session = new Session();
+                $session->where('id', $session_ids[$i])->update([
+                    'title' => $request->session_title[$i],
+                    'time' => $request->session_time[$i],
+                    'room' => $request->session_room[$i],
+                    'speaker' => $request->session_speaker[$i],
+                ]);
+            }
+        }
+
+        if($request->has('session_title') && $request->session_title[0] != ""){
+            $session_data = [];
+
+            for(; $i != count($request->session_title); $i++){
+                $session_data[] = [
+                    'event_id' => $event->id,
+                    'time' => $request->session_time[$i],
+                    'title' => $request->session_title[$i],
+                    'room' => $request->session_room[$i],
+                    'speaker' => $request->session_speaker[$i]
+                ];
+            }
+
+            $session = new Session();
+            $session->insert($session_data);
+        }
+
+
+        return redirect('admin/events');
     }
 
     /**
@@ -97,6 +168,10 @@ class EventsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $event = Event::find($id);
+        $event->sessions()->delete();
+        $event->delete();
+
+        return redirect('admin/events');
     }
 }

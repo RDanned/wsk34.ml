@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Dashboard</title>
+    <title>@yield('title')</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -25,6 +25,10 @@
     <link rel="stylesheet" href="{{ asset("lte/plugins/daterangepicker/daterangepicker.css")}}">
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset("lte/plugins/summernote/summernote-bs4.min.css")}}">
+    <!-- jQuery -->
+    <script src="{{ asset("lte/plugins/jquery/jquery.min.js") }}"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="{{ asset("lte/lugins/jquery-ui/jquery-ui.min.js") }}"></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -182,6 +186,14 @@
                                 </a>
                             </li>
                         </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('events.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-th"></i>
+                            <p>
+                                Events
+                            </p>
+                        </a>
                     </li>
                     <li class="nav-item">
                         <a href="pages/widgets.html" class="nav-link">
@@ -816,11 +828,6 @@
     <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
-
-<!-- jQuery -->
-<script src="{{ asset("plugins/jquery/jquery.min.js") }}"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="{{ asset("lugins/jquery-ui/jquery-ui.min.js") }}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
     $.widget.bridge('uibutton', $.ui.button)
