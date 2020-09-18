@@ -9,7 +9,6 @@ export default class Example extends Component {
                     <div className="col-md-8">
                         <div className="card">
                             <div className="card-header">Example Component</div>
-
                             <div className="card-body">
                                 I'm an example component!
                             </div>
@@ -21,6 +20,6 @@ export default class Example extends Component {
     }
 }
 
-if (document.getElementById('example')) {
-    ReactDOM.render(<Example />, document.getElementById('example'));
+if (document.getElementById('root')) {
+    ReactDOM.render(<Example />, document.getElementById('root'));
 }

@@ -1,0 +1,19 @@
+.event{
+    border: 3px solid black;
+    margin: 5px;
+    position: relative;
+}
+
+.event__link{
+    color: black;
+    text-decoration: underline;
+    font-size: 30px;
+    position: absolute;
+    display: block;
+    right: 60px;
+    bottom: 25px;
+    border: 2px solid black;
+    padding: 5px;
+    width: 250px;
+    text-align: center;
+}
