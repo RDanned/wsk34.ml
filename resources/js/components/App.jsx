@@ -8,6 +8,8 @@ import {
     Link
 } from "react-router-dom";
 import Event from "./Event";
+import Login from "./Login";
+import Register from './Register';
 
 export default class Example extends Component {
     render() {
@@ -15,6 +17,12 @@ export default class Example extends Component {
             <div className="container">
                 <Router>
                     <Switch>
+                        <Route path="/register">
+                            <Register/>
+                        </Route>
+                        <Route path="/login">
+                            <Login/>
+                        </Route>
                         <Route path="/event/:id">
                             <Event/>
                         </Route>

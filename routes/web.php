@@ -15,11 +15,21 @@
     return view('welcome');
 });*/
 
-Auth::routes();
+//Auth::routes();
 
 //Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('admin/events', 'Admin\EventsController');
 
-Route::get('{any}', function(){
+Route::get('/register', function(){
     return view('front.index');
-})->where('any', '.*');
+})->name('register');
+
+Route::get('/login', function(){
+    return view('front.index');
+})->name('login');
+
+Route::group(['middleware' => ['auth']], function(){
+    Route::get('{any}', function(){
+        return view('front.index');
+    })->where('any', '.*');
+});
