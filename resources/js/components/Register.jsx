@@ -16,6 +16,7 @@ export default class Register extends Component {
             error: "",
             token: ""
         };
+        document.title = "Register";
 
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -38,6 +39,8 @@ export default class Register extends Component {
 
         if('error' in result){
             this.setState((state) => {return {error: result.error}})
+        } else {
+            this.setState((state) => {return {error: ""}})
         }
 
         if('token' in result){
@@ -55,7 +58,7 @@ export default class Register extends Component {
                     <div className="col-6">
                         <div className="card card-primary">
                             <div className="card-header">
-                                <h3 className="card-title">Quick Example</h3>
+                                <h3 className="card-title">Register</h3>
                             </div>
                             <form onSubmit={this.handleSubmit}>
                                 <div className="card-body">
@@ -103,6 +106,7 @@ export default class Register extends Component {
                                 </div>
                                 <div className="card-footer">
                                     <button type="submit" className="btn btn-primary">Submit</button>
+                                    <Link to="/login">Login?</Link>
                                 </div>
                             </form>
                         </div>

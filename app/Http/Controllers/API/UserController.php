@@ -73,6 +73,39 @@ class UserController extends Controller
         }
     }
 
+    public function login(Request $request){
+        $output = [
+            'error' => '',
+            'token' => ''
+        ];
+        $code = 200;
+
+        if(User::where('username', $request->username)->count() != 0){
+            $user = User::where('username', $request->username)->first();
+
+            //dd(Hash::make($request->password));
+            if(Hash::check($request->password, $user->password)){
+                $token = md5($request->username);
+
+                $user->remember_token = $token;
+                $user->save();
+
+                $output['token'] = $token;
+                $code = 200;
+                return response($output, $code)->cookie('token', $token);
+            } else {
+                $output['error'] = 'Wrong password or username';
+                return response($output, $code);
+            }
+        } else {
+            $output['error'] = 'This user not exist';
+            $code = 422;
+            return response($output, $code);
+        }
+
+
+    }
+
     /**
      * Display the specified resource.
      *

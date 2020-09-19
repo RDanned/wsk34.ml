@@ -19,4 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('register', 'API\UserController@store');
+Route::post('login', 'API\UserController@login');
 Route::resource('events', 'API\EventsController');
