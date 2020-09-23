@@ -18,6 +18,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+/*Route::group(['middleware' => ['web']], function () {
+
+});*/
 Route::post('register', 'API\UserController@store');
 Route::post('login', 'API\UserController@login');
+Route::post('logout', 'API\UserController@logout');
 Route::resource('events', 'API\EventsController');

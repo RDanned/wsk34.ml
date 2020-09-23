@@ -41,6 +41,7 @@ export default class Login extends Component {
 
         if('token' in result){
             this.setState((state) => {return {token: result.token}})
+            window.localStorage.setItem('is_auth', true);
         }
 
     }
@@ -51,6 +52,9 @@ export default class Login extends Component {
                 <div className="row justify-content-center">
                     <div className="col-6">
                         <div className="card card-primary">
+                            <div className="card-header">
+                                <h3 className="card-title">Login</h3>
+                            </div>
                             <form onSubmit={this.handleSubmit}>
                                 <div className="card-body">
                                     {this.state.token.length > 0 && (

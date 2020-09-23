@@ -28,7 +28,7 @@ Route::get('/login', function(){
     return view('front.index');
 })->name('login');
 
-Route::group(['middleware' => ['auth']], function(){
+Route::group(['middleware' => ['authcustom']], function(){
     Route::get('{any}', function(){
         return view('front.index');
     })->where('any', '.*');

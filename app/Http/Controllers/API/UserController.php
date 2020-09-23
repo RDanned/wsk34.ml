@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\API;
 
+//use http\Cookie;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Front\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Cookie;
 
 class UserController extends Controller
 {
@@ -61,8 +64,8 @@ class UserController extends Controller
             $output = [
                 'token' => $user->remember_token
             ];
-
-            return response($output, 200)->cookie('token', $output['token'], 3000, '/');
+            $user_id = Crypt::encrypt($user->id);
+            return response($output, 200)->cookie('token', $output['token'], 3000)->cookie('user_id', $user_id, 3000);
 
         } catch (\Exception $e){
             $output = [
@@ -91,8 +94,9 @@ class UserController extends Controller
                 $user->save();
 
                 $output['token'] = $token;
+                $user_id = Crypt::encrypt($user->id);
                 $code = 200;
-                return response($output, $code)->cookie('token', $token);
+                return response($output, $code)->cookie('token', $token, 3000)->cookie('user_id', $user_id, 3000);
             } else {
                 $output['error'] = 'Wrong password or username';
                 return response($output, $code);
@@ -102,8 +106,13 @@ class UserController extends Controller
             $code = 422;
             return response($output, $code);
         }
+    }
 
-
+    public function logout(Request $request){
+        /*$token = Cookie::forget('token');
+        $user_id = Cookie::forget('user_id');*/
+        return response('true', 200)->cookie('token', '', -10)->cookie('user_id', '', -10);
+        //return response(true, 200)->cookie($token)->cookie($user_id);
     }
 
     /**

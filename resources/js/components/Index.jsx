@@ -20,6 +20,7 @@ export default function IndexPage(props){
             })
     }, []);
 
+
     console.log(events)
 
     return(

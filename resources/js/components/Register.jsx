@@ -46,6 +46,7 @@ export default class Register extends Component {
         if('token' in result){
             this.setState((state) => {return {token: result.token}})
             window.localStorage.setItem('token', result.token);
+            window.localStorage.setItem('is_auth', true);
         }
 
 
