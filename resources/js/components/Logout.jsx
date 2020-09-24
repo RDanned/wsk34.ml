@@ -25,7 +25,7 @@ export default function Logout(){
     return(
         <>
             {logout && (<Redirect to="/"/>)}
-            <button class="logout" onClick={handleLogOut}>Logout</button>
+            <button className="logout" onClick={handleLogOut}>Logout</button>
         </>
     );
 }
