@@ -6,8 +6,10 @@ import {
     Switch,
     Redirect
 } from 'react-router-dom';
+import {useAuth} from "./context/auth";
 
 export default function Logout(){
+    const {setAuthTokens} = useAuth();
     const [logout, setLogout] = useState(false);
 
     async function handleLogOut(e){
@@ -16,15 +18,16 @@ export default function Logout(){
         }).then(response => {
             return response.json();
         }).then(json => {
-            console.log(json);
-            window.localStorage.setItem('is_auth', false);
+            setAuthTokens(false);
             setLogout(json);
         })
     }
 
+    if(logout)
+        return (<Redirect to="/"/>);
+
     return(
         <>
-            {logout && (<Redirect to="/"/>)}
             <button className="logout" onClick={handleLogOut}>Logout</button>
         </>
     );

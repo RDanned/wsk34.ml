@@ -25,24 +25,16 @@ function App() {
     }
 
     return (
-        <AuthContext.Provider value={false}>
+        <AuthContext.Provider value={{authTokens, setAuthTokens: setTokens}}>
             <div className="container">
                 <Router>
-                    <div className="row"><Logout/></div>
+                    {authTokens && (<div className="row"><Logout/></div>)}
                     <Switch>
-                        <Route path="/logout">
-                            <Logout/>
-                        </Route>
-                        <Route path="/register">
-                            <Register/>
-                        </Route>
-                        <Route path="/login">
-                            <Login/>
-                        </Route>
-                        <Route path="/event/:id">
-                            <Event/>
-                        </Route>
+                        <Route path="/login" component={Login}/>
+                        <Route path="/register" component={Register}/>
+                        <PrivateRoute path="/event/:id" component={Event}/>
                         <PrivateRoute path="/" component={Index}/>
+                        <PrivateRoute path="/logout" component={Logout}/>
                     </Switch>
                 </Router>
             </div>
