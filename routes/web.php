@@ -15,21 +15,25 @@
     return view('welcome');
 });*/
 
-//Auth::routes();
 
+Auth::routes();
 //Route::get('/home', 'HomeController@index')->name('home');
-Route::resource('admin/events', 'Admin\EventsController');
+Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function() {
+    Route::resource('events', 'Admin\EventsController');
+});
 
-Route::get('/register', function(){
+Route::get('/profile/register', function(){
     return view('front.index');
-})->name('register');
+})->name('/profile/register');
 
-Route::get('/login', function(){
+Route::get('/profile/login', function(){
     return view('front.index');
-})->name('login');
+})->name('/profile/login');
 
 Route::group(['middleware' => ['authcustom']], function(){
     Route::get('{any}', function(){
         return view('front.index');
     })->where('any', '.*');
 });
+
+

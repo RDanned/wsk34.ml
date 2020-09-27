@@ -24,12 +24,12 @@ class CheckAuthCustom
             $token = $request->cookie('token');
             $user = $this->getUser($id);
             if($user->remember_token != $token){
-                return redirect('login');
+                return redirect('/profile/login');
             } else {
                 return $next($request);
             }
         } else {
-            return redirect('login');
+            return redirect('/profile/login');
         }
     }
     /*protected function redirectTo($request){

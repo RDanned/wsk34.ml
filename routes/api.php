@@ -25,10 +25,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 /*Route::post('events/register', function (Request $request){
   App\Http\Controllers\Api\EventsController::register
 });//'API\EventsController@register'*/
+Route::post('register', 'API\UserController@store');
+Route::post('login', 'API\UserController@login');
+
 Route::group(['middleware' => 'api.check.token'], function(){
     Route::get('profile', 'API\UserController@index');
-    Route::post('register', 'API\UserController@store');
-    Route::post('login', 'API\UserController@login');
     Route::post('logout', 'API\UserController@logout');
     Route::resource('events', 'API\EventsController');
     Route::post('event/register', 'API\EventsController@register');
