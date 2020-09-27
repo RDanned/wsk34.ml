@@ -14,6 +14,7 @@ import Register from './Register';
 import Logout from './Logout';
 import { AuthContext } from './context/auth';
 import PrivateRoute from "./PrivateRoute";
+import Profile from "./Profile";
 
 function App() {
     const existingToken = JSON.parse(localStorage.getItem('tokens'));
@@ -28,10 +29,15 @@ function App() {
         <AuthContext.Provider value={{authTokens, setAuthTokens: setTokens}}>
             <div className="container">
                 <Router>
-                    {authTokens && (<div className="row"><Logout/></div>)}
+                    {authTokens && (<div className="row">
+                        <Logout/>
+                        <Link to="/profile">Profile</Link>
+                        <Link to="/">Main</Link>
+                    </div>)}
                     <Switch>
                         <Route path="/login" component={Login}/>
                         <Route path="/register" component={Register}/>
+                        <PrivateRoute path="/profile" component={Profile}/>
                         <PrivateRoute path="/event/:id" component={Event}/>
                         <PrivateRoute path="/" component={Index}/>
                         <PrivateRoute path="/logout" component={Logout}/>

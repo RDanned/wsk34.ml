@@ -13,4 +13,12 @@ class Event extends Model
     public function sessions() {
         return $this->hasMany(Session::class);
     }
+
+    public function ratings() {
+        return $this->hasMany(Ratings::class);
+    }
+
+    public function registrations() {
+        return $this->hasMany(Registration::class, 'event_id');
+    }
 }

@@ -9,6 +9,8 @@ use App\Front\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Cookie;
+use App\Http\Resources\Events;
+use App\Admin\Registration;
 
 class UserController extends Controller
 {
@@ -17,9 +19,22 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $user_id =  Crypt::decrypt($request->cookie('user_id'));
+        $user_event = new Registration();
+        //$user_events = $user_event->with('events')->get();
+        $user_events = $user_event->where('user_id', $user_id)->get();
+        $user_events->load('event');
+        /*$user_events = $user_event->with(['events' => function($q){
+            return $q->select('id','title')->get();
+        }])->where('user_id', $user_id)->get();*/
+        //$user_events = $user_event->with('events')->get();
+        //$user_events = $user_event->all();
+
+
+        //dd($user_events);
+        return new Events($user_events);
     }
 
     /**
